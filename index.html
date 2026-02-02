@@ -1,58 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CalorieCraft</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
-</head>
 <body>
   <header>
     <h1>CalorieCraft</h1>
-    <p id="dayType">Low Calorie Day</p>
+    <p class="sub">Offline • Private • iPhone-friendly</p>
   </header>
 
-  <section class="card hero">
-    <h2 id="targetCalories">0 kcal</h2>
-    <p>Target Today</p>
+  <nav class="tabs">
+    <button class="tab active" data-tab="home">Home</button>
+    <button class="tab" data-tab="calculator">Calculator</button>
+    <button class="tab" data-tab="meals">Meals</button>
+    <button class="tab" data-tab="progress">Progress</button>
+  </nav>
+
+  <!-- HOME -->
+  <section class="panel" id="home">
+    <div class="card hero">
+      <div class="heroTop">
+        <div>
+          <div class="label">Target Today</div>
+          <div class="big" id="targetCalories">— kcal</div>
+        </div>
+        <div class="pill" id="dayType">Deficit</div>
+      </div>
+      <div class="small" id="maintenanceText">Maintenance: — kcal</div>
+      <div class="small" id="deficitText">Deficit: — kcal/day</div>
+    </div>
+
+    <div class="card">
+      <h3>Macros (grams/day)</h3>
+      <div class="macroRow"><span>Protein</span><b id="protein">—</b></div>
+      <div class="macroRow"><span>Carbs</span><b id="carbs">—</b></div>
+      <div class="macroRow"><span>Fat</span><b id="fat">—</b></div>
+      <div class="small" id="wholeFoodsText">Whole foods (80–90%): — kcal • Flex (10–20%): — kcal</div>
+    </div>
+
+    <div class="card shield" id="shield">🛡 Muscle Protected</div>
+
+    <div class="card">
+      <h3>Estimated Weight Loss</h3>
+      <div class="big2"><span id="loss">—</span> kg/week</div>
+      <div class="small">Based on calorie deficit estimate (7700 kcal ≈ 1 kg fat).</div>
+    </div>
   </section>
 
-  <section class="card">
-    <h3>Macros</h3>
-    <div class="macro">Protein: <span id="protein"></span> g</div>
-    <div class="macro">Carbs: <span id="carbs"></span> g</div>
-    <div class="macro">Fat: <span id="fat"></span> g</div>
+  <!-- CALCULATOR -->
+  <section class="panel hidden" id="calculator">
+    <div class="card">
+      <h3>Auto-compute Maintenance (TDEE)</h3>
+
+      <div class="grid2">
+        <input type="number" id="age" placeholder="Age">
+        <select id="sex">
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+        </select>
+
+        <input type="number" id="weight" placeholder="Weight">
+        <select id="weightUnit">
+          <option value="kg">kg</option>
+          <option value="lb">lb</option>
+        </select>
+
+        <input type="number" id="height" placeholder="Height">
+        <select id="heightUnit">
+          <option value="cm">cm</option>
+          <option value="ft">ft-in</option>
+        </select>
+      </div>
+
+      <div class="grid2 hidden" id="ftInRow">
+        <input type="number" id="heightFt" placeholder="ft">
+        <input type="number" id="heightIn" placeholder="in">
+      </div>
+
+      <select id="activity">
+        <option value="1.2">Sedentary (little exercise)</option>
+        <option value="1.375">Light (1–3x/week)</option>
+        <option value="1.55">Moderate (3–5x/week)</option>
+        <option value="1.725">Very Active</option>
+        <option value="1.9">Athlete</option>
+      </select>
+
+      <div class="small">OR if you already know your maintenance calories, enter it below.</div>
+      <input type="number" id="maintenanceOverride" placeholder="Maintenance calories (optional)">
+
+      <div class="grid2">
+        <input type="number" id="cutPercent" placeholder="Cut % (e.g., 15)" value="15">
+        <input type="number" id="targetOverride" placeholder="Target calories (optional)">
+      </div>
+
+      <button id="updateBtn">Update</button>
+      <div class="small" id="calcDebug"></div>
+    </div>
+
+    <div class="card">
+      <h3>Macro Split</h3>
+      <div class="grid3">
+        <input type="number" id="pPct" value="35" placeholder="Protein %">
+        <input type="number" id="fPct" value="25" placeholder="Fat %">
+        <input type="number" id="cPct" value="40" placeholder="Carbs %">
+      </div>
+      <div class="small">Tip: keep protein high to protect lean mass.</div>
+    </div>
   </section>
 
-  <section class="card">
-    <h3>Body Inputs</h3>
-    <input type="number" id="age" placeholder="Age">
-    <select id="sex">
-      <option value="M">Male</option>
-      <option value="F">Female</option>
-    </select>
-    <input type="number" id="weight" placeholder="Weight (kg)">
-    <input type="number" id="height" placeholder="Height (cm)">
-    <select id="activity">
-      <option value="1.2">Sedentary</option>
-      <option value="1.375">Light</option>
-      <option value="1.55">Moderate</option>
-      <option value="1.725">Very Active</option>
-    </select>
-    <input type="number" id="deficit" placeholder="Daily Deficit (kcal)">
-    <button onclick="calculate()">Update</button>
+  <!-- MEALS -->
+  <section class="panel hidden" id="meals">
+    <div class="card">
+      <h3>Recommended Foods (PH-friendly)</h3>
+      <div class="small">These suggestions adjust based on your macros & calories.</div>
+      <div id="foodList"></div>
+    </div>
+
+    <div class="card">
+      <h3>Simple 1-day Meal Template</h3>
+      <div id="mealTemplate"></div>
+    </div>
   </section>
 
-  <section class="card shield" id="shield">
-    🛡 Muscle Protected
-  </section>
+  <!-- PROGRESS -->
+  <section class="panel hidden" id="progress">
+    <div class="card">
+      <h3>Progress (local only)</h3>
+      <div class="small">Log your weigh-ins; we’ll show trend next.</div>
 
-  <section class="card">
-    <h3>Estimated Fat Loss</h3>
-    <p><span id="loss"></span> kg / week</p>
+      <div class="grid2">
+        <input type="date" id="logDate">
+        <input type="number" id="logWeight" placeholder="Weight (kg)">
+      </div>
+      <button id="saveLogBtn">Save Weigh-in</button>
+
+      <div id="logs" class="small"></div>
+    </div>
   </section>
 
   <script src="app.js"></script>
 </body>
-</html>
