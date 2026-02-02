@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CalorieCraft</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>CalorieCraft</h1>
+    <p id="dayType">Low Calorie Day</p>
+  </header>
+
+  <section class="card hero">
+    <h2 id="targetCalories">0 kcal</h2>
+    <p>Target Today</p>
+  </section>
+
+  <section class="card">
+    <h3>Macros</h3>
+    <div class="macro">Protein: <span id="protein"></span> g</div>
+    <div class="macro">Carbs: <span id="carbs"></span> g</div>
+    <div class="macro">Fat: <span id="fat"></span> g</div>
+  </section>
+
+  <section class="card">
+    <h3>Body Inputs</h3>
+    <input type="number" id="age" placeholder="Age">
+    <select id="sex">
+      <option value="M">Male</option>
+      <option value="F">Female</option>
+    </select>
+    <input type="number" id="weight" placeholder="Weight (kg)">
+    <input type="number" id="height" placeholder="Height (cm)">
+    <select id="activity">
+      <option value="1.2">Sedentary</option>
+      <option value="1.375">Light</option>
+      <option value="1.55">Moderate</option>
+      <option value="1.725">Very Active</option>
+    </select>
+    <input type="number" id="deficit" placeholder="Daily Deficit (kcal)">
+    <button onclick="calculate()">Update</button>
+  </section>
+
+  <section class="card shield" id="shield">
+    🛡 Muscle Protected
+  </section>
+
+  <section class="card">
+    <h3>Estimated Fat Loss</h3>
+    <p><span id="loss"></span> kg / week</p>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
